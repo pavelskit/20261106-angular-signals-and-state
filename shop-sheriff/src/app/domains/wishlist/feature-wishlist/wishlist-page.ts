@@ -1,8 +1,7 @@
 import { Component, Injectable, inject, signal, input, output, computed } from '@angular/core';
 import { FormField, FormRoot, form, required, minLength } from '@angular/forms/signals';
-import { RouterLink } from '@angular/router';
 import { PageHeader } from '../../../shared/ui';
-import { JsonPipe } from '@angular/common';
+import { WishlistItem } from './wishlist-item';
 
 // data-access ────────────────────────────────────────────────────────────────
 
@@ -105,7 +104,7 @@ interface WishlistDetails {
 
 @Component({
   selector: 'app-wishlist-page',
-  imports: [PageHeader, RouterLink, WishlistToggle, FormField, FormRoot, JsonPipe],
+  imports: [PageHeader, WishlistToggle, FormField, FormRoot, WishlistItem],
   template: `
     <app-page-header title="My wishlist" subtitle="Click ♡ to like a product." />
 
@@ -177,9 +176,7 @@ interface WishlistDetails {
     @if (wishlist.count()) {
       <ul class="list-group">
         @for (slug of wishlist.slugs(); track slug) {
-          <li class="list-group-item d-flex justify-content-between">
-            <a [routerLink]="['/products', slug]">{{ slug }}</a>
-          </li>
+          <app-wishlist-item [slug]="slug" />
         }
       </ul>
     } @else {
@@ -205,7 +202,7 @@ export class WishlistPage {
     this.detailsModel,
     (p) => {
       required(p.name, { message: 'Name is required' });
-      minLength(p.description, 5, {message: 'Description must be at least 5 characters'});
+      minLength(p.description, 5, { message: 'Description must be at least 5 characters' });
     },
     {
       submission: {
