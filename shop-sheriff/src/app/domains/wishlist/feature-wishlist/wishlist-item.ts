@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { httpResource } from '@angular/common/http';
 import { PricePipe } from '../../../shared/ui';
@@ -17,6 +17,8 @@ interface WishlistProduct {
   imports: [RouterLink, PricePipe],
   selector: 'app-wishlist-item',
   styles: ``,
+  // standalone: true,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<li class="list-group-item d-flex justify-content-between">
     @if (product.isLoading()) {
       <!-- ładowanie -->
